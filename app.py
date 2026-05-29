@@ -5,14 +5,33 @@ from routes.task_routes import task_bp
 from routes.payment_routes import payment_bp
 from routes.map_routes import map_bp
 from routes.ai_routes import ai_bp
-
+from routes.oauth_routes import (
+    oauth_bp,
+    init_oauth
+)
+from config.oauth_config import (
+    GOOGLE_CLIENT_ID,
+    GOOGLE_CLIENT_SECRET
+)
 app = Flask(__name__)
+app.secret_key = "oauth-secret-key"
 
 app.config["SECRET_KEY"] = "supersecretkey"
+app.config["GOOGLE_CLIENT_ID"] = (
+    GOOGLE_CLIENT_ID
+)
+app.config["GOOGLE_CLIENT_SECRET"] = (
+    GOOGLE_CLIENT_SECRET
+)
 
 init_db(app)
+init_oauth(app)
 
 app.register_blueprint(auth_bp, url_prefix="/api/auth")
+app.register_blueprint(
+    oauth_bp,
+    url_prefix="/auth"
+)
 app.register_blueprint(task_bp, url_prefix="/api/tasks")
 
 
@@ -37,4 +56,8 @@ def home():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(
+        host="0.0.0.0",
+        port=8000,
+        debug=True
+    )
