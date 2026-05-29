@@ -5,6 +5,10 @@ from config.database import db
 
 from authlib.integrations.flask_client import OAuth
 
+import jwt
+import datetime
+from flask import current_app
+
 oauth_bp = Blueprint(
     "oauth_bp",
     __name__
@@ -72,9 +76,21 @@ def google_callback():
         db.session.add(user)
         db.session.commit()
 
+    jwt_token = jwt.encode(
+        {
+            "user_id":user.id,
+            "exp":datetime.datetime.utcnow() + datetime.timedelta(hours=24),
+        },
+        current_app.config["SECRET_KEY"],
+        algorithm="HS256"
+    )
+
     return {
-        "id": user.id,
-        "name": user.name,
-        "email": user.email,
-        "provider": user.provider
+        "token":jwt_token,
+        "user": {
+            "id": user.id,
+            "name": user.name,
+            "email": user.email,
+            "provider": user.provider
+        }
     }
