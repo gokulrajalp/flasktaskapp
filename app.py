@@ -13,7 +13,26 @@ from config.oauth_config import (
     GOOGLE_CLIENT_ID,
     GOOGLE_CLIENT_SECRET
 )
+from flasgger import Swagger
+
 app = Flask(__name__)
+
+swagger_template = {
+    "swagger":"2.0",
+    "securityDefinitions":{
+        "Bearer":{
+            "type":"apikey",
+            "name":"Authorization",
+            "in":"header"
+        }
+    }
+}
+
+swagger = Swagger(app,template=swagger_template)
+app.config["SWAGGER"]={
+    "title":"Task Management",
+    "uiversion":3
+}
 app.secret_key = "oauth-secret-key"
 
 app.config["SECRET_KEY"] = "supersecretkey"

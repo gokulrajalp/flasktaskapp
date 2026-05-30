@@ -14,7 +14,31 @@ def signup():
 
 @auth_bp.route("/login", methods=["POST"])
 def login():
+    """
+    User Login
+    ---
+    tags:
+      - Authentication
 
+    parameters:
+      - in: body
+        name: body
+        schema:
+          type: object
+
+          properties:
+
+            username:
+              type: string
+
+            password:
+              type: string
+
+    responses:
+
+      200:
+        description: Login Success
+    """
     response, status = login_service(request.json)
 
     return jsonify(response), status

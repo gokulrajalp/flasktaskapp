@@ -3,3 +3,6 @@ Flask-SQLAlchemy
 PyJWT
 Werkzeug
 Authlib
+flasgger
+flask-smorest
+marshmallow
