@@ -6,3 +6,4 @@ Authlib
 flasgger
 flask-smorest
 marshmallow
+gunicorn
