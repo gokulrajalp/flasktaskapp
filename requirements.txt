@@ -7,3 +7,7 @@ flasgger
 flask-smorest
 marshmallow
 gunicorn
+requests
+razorpay
+google-generativeai
+gunicorn
